@@ -1,5 +1,7 @@
 const tblBlog = "blogs";
+
 let blogId = null;
+
 getBlogTable();
 //createBlog();
 //updatBlog("c08155b1-ca33-42fa-80d0-42c595c99a77","Love","You","So match");
@@ -27,7 +29,7 @@ function createBlog(title, author, content) {
 
     const jsonBlog = JSON.stringify(lst);
     localStorage.setItem(tblBlog, jsonBlog);
-    successMessage("Saving Successfully.>_<");
+    successMessage('Create Success');
     clearControls();
 }
 
@@ -75,12 +77,12 @@ function updatBlog(id, title, author, content) {
 
     const jsonBlog = JSON.stringify(lst);
     localStorage.setItem(tblBlog, jsonBlog);
-    successMessage("Update Successfully.>_<");
+    successMessage('Update Success!');
 }
 
 function deleteBlog(id) {
-    let result=confirm("Are you sure to Delete?T_T");
-    if(!result) return;
+    let result = confirm("Are you sure to Delete?T_T");
+    if (!result) return;
 
     let lst = getBlogs();
 
@@ -88,13 +90,14 @@ function deleteBlog(id) {
 
     if (items.length == 0) {
         console.log("no data found.");
+        errorMessage("No data found!!!")
         return;
     }
     lst = lst.filter(x => x.id !== id);
 
     const jsonBlog = JSON.stringify(lst);
     localStorage.setItem(tblBlog, jsonBlog);
-    successMessage("Delete successfully.");
+    successMessage('Delete Success');
     getBlogTable();
 }
 
@@ -133,12 +136,21 @@ $('#btnSave').click(function () {
 })
 
 function successMessage(message) {
-    alert(message);
+    Swal.fire({
+        title: "Success!",
+        text: message,
+        icon: "success"
+    });
+}
 
-}
 function errorMessage(message) {
-    alert(message);
+    Swal.fire({
+        title: "Error!",
+        text: message,
+        icon: "error"
+    });
 }
+
 function clearControls() {
     $('#txtTitle').val('');
     $('#txtAuthor').val('');
@@ -162,7 +174,7 @@ function getBlogTable() {
             <td>${item.author}</td>
             <td>${item.content}</td>
         </tr>
-        `;   
+        `;
         htmlRows += htmlRow;
     });
     $('#tbody').html(htmlRows);
